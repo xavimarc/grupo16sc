@@ -19,20 +19,22 @@ $(function(){
   var id = Math.round($.now()*Math.random());
 
   // inicializamos el estado
-  var drawing = false;
-  var clients = {};
-  var cursors = {};
+  var drawing = false;//al iniciar el usuario no estara dibujando
+  var clients = {};//Otros Clientes
+  var cursors = {};//
   var prev = {};
-  var lastEmit = $.now();
+  var lastEmit = $.now();//
   var cursorColor = randomColor();
 
-  // abrimos la conexion
+  // abrimos la conexion de sockets
   var socket = io.connect(url);
 
   /*
     Administradores de eventos
    */
-
+   //Se ejecuta cada vez que una persona conectada a la
+   // aplicacion se mueve
+  
   function moveHandler(data) {
     if(! (data.id in clients)){
       // le damos un cursor a cada usuario nuestro
@@ -54,6 +56,7 @@ $(function(){
     clients[data.id].updated = $.now();
   }
 
+  //Cuando el usuario presiona el mouse
   function mousedownHandler(e) {
     e.preventDefault();
     drawing = true;
@@ -63,7 +66,7 @@ $(function(){
     // escondemos las instrucciones
     instructions.fadeOut();
   }
-
+  //Cuando el usuario esta presionando el mouse y moviendolo
   function mousemoveHandler(e) {
     if($.now() - lastEmit > 30){
       var movement = {
